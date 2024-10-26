@@ -55,10 +55,10 @@ class PairKnotData(Dataset):
 
 
 class KnotCNData(Dataset):
-    def __init__(self, data_file, max_length=32, max_moves=5):
+    def __init__(self, data_file, max_moves=5):
          self.data_file = data_file
-         self.max_length = max_length
          self.max_moves = max_moves
+         self.max_length = 30 + 2 * self.max_moves
          self.data = pd.read_csv(data_file)
 
     def __len__(self):
@@ -75,12 +75,10 @@ class KnotCNData(Dataset):
         num_moves = random.randint(1, self.max_moves)
         braid = Braid(self.data.iloc[id][0])
         braid = self.transform(braid, num_moves)
-        while len(braid) > self.max_length:
-            braid = self.transform(braid, num_moves)
         crossing_number = int(self.data.iloc[id][0][0])
         return (torch.tensor(braid.values()[1], dtype=torch.float32), crossing_number)
     
     def collate_fn(self, data):
         braids = torch.stack([F.pad(data[i][0], (0, self.max_length - len(data[i][0]))) for i in range(len(data))])
-        labels = torch.tensor([data[i][1] for i in range(len(data))], dtype=torch.float32)
+        labels = torch.tensor([data[i][1] for i in range(len(data))], dtype=torch.long)
         return (braids, labels)
