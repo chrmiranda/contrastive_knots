@@ -75,7 +75,7 @@ class KnotCNData(Dataset):
         num_moves = random.randint(1, self.max_moves)
         braid = Braid(self.data.iloc[id][0])
         braid = self.transform(braid, num_moves)
-        crossing_number = int(self.data.iloc[id][0][0])
+        crossing_number = int(self.data.iloc[id]["Crossing Number"])
         return (torch.tensor(braid.values()[1], dtype=torch.float32), crossing_number)
     
     def collate_fn(self, data):
