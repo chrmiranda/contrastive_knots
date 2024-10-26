@@ -11,7 +11,7 @@ class MLP(torch.nn.Module):
         self.fc1 = Linear(input_size, 64)
         self.fc2 = Linear(64, 64)
         self.fc3 = Linear(64, 32)
-        self.fc4 = Linear(32, 11)
+        self.fc4 = Linear(32, 14)
         self.relu = ReLU()
         self.softmax = Softmax()
 
