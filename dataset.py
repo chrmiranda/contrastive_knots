@@ -78,9 +78,9 @@ class KnotCNData(Dataset):
         while len(braid) > self.max_length:
             braid = self.transform(braid, num_moves)
         crossing_number = int(self.data.iloc[id][0][0])
-        return (braid.to_torch(), crossing_number)
+        return (torch.tensor(braid.values()[1], dtype=torch.float32), crossing_number)
     
     def collate_fn(self, data):
         braids = torch.stack([F.pad(data[i][0], (0, self.max_length - len(data[i][0]))) for i in range(len(data))])
-        labels = torch.tensor([data[i][1] for i in range(len(data))])
+        labels = torch.tensor([data[i][1] for i in range(len(data))], dtype=torch.float32)
         return (braids, labels)
