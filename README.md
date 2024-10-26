@@ -1,4 +1,4 @@
-#Contrastive Knots
+# Contrastive Knots
 
 Exploring braids through supervised learning.
 
